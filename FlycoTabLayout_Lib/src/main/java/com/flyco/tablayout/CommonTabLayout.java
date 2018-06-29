@@ -4,6 +4,7 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -26,6 +28,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.flyco.tablayout.entity.ImageTabEntity;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.utils.FragmentChangeManager;
@@ -33,6 +39,8 @@ import com.flyco.tablayout.utils.UnreadMsgUtils;
 import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /** 没有继承HorizontalScrollView不能滑动,对于ViewPager无依赖 */
 public class CommonTabLayout extends FrameLayout implements ValueAnimator.AnimatorUpdateListener {
@@ -954,4 +962,49 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         return (int) (sp * scale + 0.5f);
     }
 
+    private RequestManager glide;//glide
+    private List<HashMap> bitmapResource ;//glide加载了图片后的缓存bitmap集合，选中和非选中的两个图为1个map
+    private final String TAB_SELECTED="tabSelected";//和下边这个变量是用到的hashmap的key
+    private final String TAB_UNSELECTED="tabUnselected";
+
+
+
+    /*public void setTabData(ArrayList<ImageTabEntity> tabEntities) {
+        if (tabEntities == null || tabEntities.size() == 0) {
+            throw new IllegalStateException("TabEntitys can not be NULL or EMPTY !");
+        }
+        this.mTabEntitys.clear();
+        this.mTabEntitys.addAll(tabEntities);
+        //先判断glide加载的缓存数组有没有
+        if(bitmapResource==null||bitmapResource.size()==0){
+            bitmapResource = new ArrayList<>();
+        }else{
+            bitmapResource.clear();
+        }
+        //遍历传来的tab对象
+        for(final ImageTabEntity tabEntity:tabEntities){
+            //如果图标url不是空的，就用glide加载选中的和未选中的图片，缓存下来的bitmap存进map中，然后将map放入list里
+            if(!TextUtils.isEmpty(tabEntity.getTabSelectedIconByString())||!TextUtils.isEmpty(tabEntity.getTabUnSelectedIconByString())){
+                final HashMap<String,Bitmap> hashMap = new HashMap<>();
+                glide.load(tabEntity.getTabUnSelectedIconByString()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        hashMap.put(TAB_UNSELECTED,resource);
+                    }
+                });
+                glide.load(tabEntity.getTabSelectedIconByString()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        hashMap.put(TAB_SELECTED,resource);
+                    }
+                });
+                bitmapResource.add(hashMap);
+            }
+        }
+        this.mTabEntitys.clear();
+        this.mTabEntitys.addAll(tabEntitys);
+
+        notifyDataSetChanged();
+    }
+*/
 }

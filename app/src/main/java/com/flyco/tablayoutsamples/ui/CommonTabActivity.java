@@ -142,6 +142,7 @@ public class CommonTabActivity extends AppCompatActivity {
     Random mRandom = new Random();
 
     private void tl_2() {
+
         mTabLayout_2.setTabData(mTabEntities);
         mTabLayout_2.setOnTabSelectListener(new OnTabSelectListener() {
             @Override

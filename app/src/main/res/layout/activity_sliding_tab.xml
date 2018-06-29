@@ -96,6 +96,8 @@
                 android:layout_height="48dp"
                 android:background="#E45171"
                 tl:tl_indicator_color="#eeeeee"
+                tl:tl_textsize="15sp"
+                tl:tl_textSelectSize="30sp"
                 tl:tl_indicator_style="TRIANGLE"/>
 
             <com.flyco.tablayout.SlidingTabLayout

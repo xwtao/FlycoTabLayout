@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -96,6 +97,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private int mLastScrollX;
     private int mHeight;
     private boolean mSnapOnTabClick;
+    private float mTextSelectsize;
 
     public SlidingTabLayout(Context context) {
         this(context, null, 0);
@@ -156,6 +158,8 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         mDividerPadding = ta.getDimension(R.styleable.SlidingTabLayout_tl_divider_padding, dp2px(12));
 
         mTextsize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textsize, sp2px(14));
+        mTextSelectsize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textSelectSize,mTextsize);
+
         mTextSelectColor = ta.getColor(R.styleable.SlidingTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
         mTextUnselectColor = ta.getColor(R.styleable.SlidingTabLayout_tl_textUnselectColor, Color.parseColor("#AAffffff"));
         mTextBold = ta.getInt(R.styleable.SlidingTabLayout_tl_textBold, TEXT_BOLD_NONE);
@@ -252,6 +256,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     /** 创建并添加tab */
     private void addTab(final int position, String title, View tabView) {
         TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
+//        ImageView imageView = (ImageView) tabView.findViewById(R.id.tv_tab_title);
         if (tv_tab_title != null) {
             if (title != null) tv_tab_title.setText(title);
         }
@@ -369,6 +374,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
             if (tab_title != null) {
                 tab_title.setTextColor(isSelect ? mTextSelectColor : mTextUnselectColor);
+                tab_title.setTextSize(TypedValue.COMPLEX_UNIT_PX,isSelect ? mTextSelectsize:mTextsize);
                 if (mTextBold == TEXT_BOLD_WHEN_SELECT) {
                     tab_title.getPaint().setFakeBoldText(isSelect);
                 }
